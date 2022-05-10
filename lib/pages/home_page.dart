@@ -1,6 +1,9 @@
 // ignore_for_file: prefer_const_constructors
 
 import 'package:flutter/material.dart';
+import 'package:flutter_application_1/pages/hello_page1.dart';
+import 'package:flutter_application_1/pages/hello_page2.dart';
+import 'package:flutter_application_1/pages/hello_page3.dart';
 
 class HomePage extends StatelessWidget {
   @override
@@ -20,37 +23,49 @@ class HomePage extends StatelessWidget {
   _body(context) {
     Size size = MediaQuery.of(context).size;
     return Container(
-      //height: size.height,
+        // color: Colors.green,
+        // padding: const EdgeInsets.all(16),
+        //height: size.height,
+        child: Container(
       color: Color.fromRGBO(255, 235, 59, 1),
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
-        children: <Widget>[_text(), _pageView(), _column()],
+        children: <Widget>[_text(), _pageView(), _buttons(context)],
       ),
-    );
+    ));
   }
 
-  _column() {
+  _buttons(context) {
     return Column(
       children: <Widget>[
         Row(
           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
           children: <Widget>[
-            _button("ListView"),
-            _button("Page 2"),
-            _button("Page 3")
+            _button(context, "ListView",
+                () => _onClickNavigator(context, HelloPage1())),
+            _button(context, "Page 2",
+                () => _onClickNavigator(context, HelloPage2())),
+            _button(context, "Page 3",
+                () => _onClickNavigator(context, HelloPage3())),
           ],
         ),
         Row(
           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
           children: <Widget>[
-            _button("Snack"),
-            _button("Dialog"),
-            _button("Toast")
+            _button(context, "Snack", _onClickSnack),
+            _button(context, "Dialog", _onClickDialog),
+            _button(context, "Toast", _onClickToast)
           ],
         )
       ],
     );
   }
+
+  _onClickSnack() {}
+
+  _onClickDialog() {}
+
+  _onClickToast() {}
 
   _text() {
     return Text(
@@ -78,7 +93,7 @@ class HomePage extends StatelessWidget {
     );
   }
 
-  _button(String text) {
+  _button(context, String text, Function() onPressed) {
     return RaisedButton(
         color: Colors.blue,
         child: Text(
@@ -88,16 +103,19 @@ class HomePage extends StatelessWidget {
             fontSize: 20,
           ),
         ),
-        onPressed: () => _onClickOk());
+        onPressed: onPressed);
   }
 
-  void _onClickOk() {
-    print("Clicou no botão");
+  void _onClickNavigator(BuildContext context, Widget page) {
+    Navigator.push(context, MaterialPageRoute(builder: (BuildContext context) {
+      return page;
+    }));
   }
 
   _pageView() {
     return Container(
       height: 300,
+      margin: EdgeInsets.only(top: 20, bottom: 20),
       child: PageView(children: <Widget>[
         _img("assets/images/carro.png"),
         _img("assets/images/carro.png"),
