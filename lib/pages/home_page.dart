@@ -13,21 +13,47 @@ class HomePage extends StatelessWidget {
           ),
         ),
       ),
-      body: _body(),
+      body: _body(context),
     );
   }
 
-  _body() {
+  _body(context) {
+    Size size = MediaQuery.of(context).size;
     return Container(
-      color: Colors.white,
-      child: Center(
-        child: _button(),
+      //height: size.height,
+      color: Colors.yellow,
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: <Widget>[_text(), _img(), _column()],
       ),
     );
   }
 
+  _column() {
+    return Column(
+      children: <Widget>[
+        Row(
+          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+          children: <Widget>[
+            _button("ListView"),
+            _button("Page 2"),
+            _button("Page 3")
+          ],
+        ),
+        Row(
+          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+          children: <Widget>[
+            _button("Snack"),
+            _button("Dialog"),
+            _button("Toast")
+          ],
+        )
+      ],
+    );
+  }
+
   _text() {
-    Text(
+    return Text(
       "CORPITO",
       style: TextStyle(
         fontSize: 30,
@@ -48,14 +74,14 @@ class HomePage extends StatelessWidget {
     );
   }
 
-  _button() {
+  _button(String text) {
     return RaisedButton(
         color: Colors.blue,
         child: Text(
-          "OK",
+          text,
           style: TextStyle(
             color: Colors.white,
-            fontSize: 30,
+            fontSize: 20,
           ),
         ),
         onPressed: () => _onClickOk());
