@@ -7,28 +7,12 @@ class Dog {
   Dog(this.nome, this.foto);
 }
 
-class HelloListView extends StatelessWidget {
-  bool gridView = true;
-
+class HelloGridView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text("ListView"),
-        actions: <Widget>[
-          IconButton(
-            icon: Icon(Icons.list),
-            onPressed: () {
-              print("Lista");
-            },
-          ),
-          IconButton(
-            icon: Icon(Icons.grid_on),
-            onPressed: () {
-              print("Grid");
-            },
-          )
-        ],
+        title: Text("GridView"),
       ),
       body: _body(),
     );
@@ -39,11 +23,30 @@ class HelloListView extends StatelessWidget {
       Dog("Carrinho", "assets/images/carro.png"),
       Dog("Carro", "assets/images/carro.png"),
       Dog("Mustang", "assets/images/carro.png"),
-      Dog("Mumu", "assets/images/carro.png")
+      Dog("Mumu", "assets/images/carro.png"),
+      Dog("Carrinho", "assets/images/carro.png"),
+      Dog("Carro", "assets/images/carro.png"),
+      Dog("Mustang", "assets/images/carro.png"),
+      Dog("Mumu", "assets/images/carro.png"),
+      Dog("Carrinho", "assets/images/carro.png"),
+      Dog("Carro", "assets/images/carro.png"),
+      Dog("Mustang", "assets/images/carro.png"),
+      Dog("Mumu", "assets/images/carro.png"),
+      Dog("Mustang", "assets/images/carro.png"),
+      Dog("Mumu", "assets/images/carro.png"),
+      Dog("Carrinho", "assets/images/carro.png"),
+      Dog("Carro", "assets/images/carro.png"),
+      Dog("Mustang", "assets/images/carro.png"),
+      Dog("Mustang", "assets/images/carro.png"),
+      Dog("Mumu", "assets/images/carro.png"),
+      Dog("Carrinho", "assets/images/carro.png"),
+      Dog("Carro", "assets/images/carro.png"),
+      Dog("Mustang", "assets/images/carro.png")
     ];
-    return ListView.builder(
+    return GridView.builder(
       itemCount: dogs.length,
-      itemExtent: 300,
+      gridDelegate:
+          SliverGridDelegateWithFixedCrossAxisCount(crossAxisCount: 3),
       itemBuilder: (context, index) {
         Dog dog = dogs[index];
         return Stack(

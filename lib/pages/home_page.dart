@@ -1,6 +1,7 @@
 // ignore_for_file: prefer_const_constructors
 
 import 'package:flutter/material.dart';
+import 'package:flutter_application_1/pages/hello_gridview.dart';
 import 'package:flutter_application_1/pages/hello_listview.dart';
 import 'package:flutter_application_1/pages/hello_page2.dart';
 import 'package:flutter_application_1/pages/hello_page3.dart';
@@ -45,6 +46,8 @@ class HomePage extends StatelessWidget {
           children: <Widget>[
             BlueButton("ListView",
                 onPressed: () => _onClickNavigator(context, HelloListView())),
+            BlueButton("GridView",
+                onPressed: () => _onClickNavigator(context, HelloGridView())),
             BlueButton("Page 2",
                 onPressed: () => _onClickNavigator(context, HelloPage2())),
             BlueButton("Page 3",
