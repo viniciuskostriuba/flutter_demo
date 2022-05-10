@@ -1,9 +1,11 @@
 // ignore_for_file: prefer_const_constructors
 
 import 'package:flutter/material.dart';
-import 'package:flutter_application_1/pages/hello_page1.dart';
+import 'package:flutter_application_1/pages/hello_listview.dart';
 import 'package:flutter_application_1/pages/hello_page2.dart';
 import 'package:flutter_application_1/pages/hello_page3.dart';
+import 'package:flutter_application_1/utils/nav.dart';
+import 'package:flutter_application_1/widgets/blue_button.dart';
 
 class HomePage extends StatelessWidget {
   @override
@@ -41,20 +43,20 @@ class HomePage extends StatelessWidget {
         Row(
           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
           children: <Widget>[
-            _button(context, "ListView",
-                () => _onClickNavigator(context, HelloPage1())),
-            _button(context, "Page 2",
-                () => _onClickNavigator(context, HelloPage2())),
-            _button(context, "Page 3",
-                () => _onClickNavigator(context, HelloPage3())),
+            BlueButton("ListView",
+                onPressed: () => _onClickNavigator(context, HelloListView())),
+            BlueButton("Page 2",
+                onPressed: () => _onClickNavigator(context, HelloPage2())),
+            BlueButton("Page 3",
+                onPressed: () => _onClickNavigator(context, HelloPage3())),
           ],
         ),
         Row(
           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
           children: <Widget>[
-            _button(context, "Snack", _onClickSnack),
-            _button(context, "Dialog", _onClickDialog),
-            _button(context, "Toast", _onClickToast)
+            BlueButton("Snack", onPressed: _onClickSnack),
+            BlueButton("Dialog", onPressed: _onClickDialog),
+            BlueButton("Toast", onPressed: _onClickToast)
           ],
         )
       ],
@@ -93,23 +95,13 @@ class HomePage extends StatelessWidget {
     );
   }
 
-  _button(context, String text, Function() onPressed) {
-    return RaisedButton(
-        color: Colors.blue,
-        child: Text(
-          text,
-          style: TextStyle(
-            color: Colors.white,
-            fontSize: 20,
-          ),
-        ),
-        onPressed: onPressed);
-  }
+  // _button(String text, Function() onPressed) {
+  //   return BlueButton(text, onPressed: onPressed);
+  // }
 
-  void _onClickNavigator(BuildContext context, Widget page) {
-    Navigator.push(context, MaterialPageRoute(builder: (BuildContext context) {
-      return page;
-    }));
+  void _onClickNavigator(BuildContext context, Widget page) async {
+    String s = await push(context, page);
+    print(">>$s");
   }
 
   _pageView() {
