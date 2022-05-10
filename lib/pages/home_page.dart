@@ -21,10 +21,10 @@ class HomePage extends StatelessWidget {
     Size size = MediaQuery.of(context).size;
     return Container(
       //height: size.height,
-      color: Colors.yellow,
+      color: Color.fromRGBO(255, 235, 59, 1),
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
-        children: <Widget>[_text(), _img(), _column()],
+        children: <Widget>[_text(), _pageView(), _column()],
       ),
     );
   }
@@ -65,9 +65,13 @@ class HomePage extends StatelessWidget {
     );
   }
 
-  _img() {
-    return Image.asset(
-      "assets/images/carro.png",
+  _img(String img) {
+    return Container(
+      margin: EdgeInsets.all(20),
+      child: Image.asset(
+        img,
+        fit: BoxFit.cover,
+      ),
       //width: 300,
       //height: 300,
       //fit: BoxFit.fill,
@@ -89,5 +93,17 @@ class HomePage extends StatelessWidget {
 
   void _onClickOk() {
     print("Clicou no botão");
+  }
+
+  _pageView() {
+    return Container(
+      height: 300,
+      child: PageView(children: <Widget>[
+        _img("assets/images/carro.png"),
+        _img("assets/images/carro.png"),
+        _img("assets/images/carro.png"),
+        _img("assets/images/carro.png")
+      ]),
+    );
   }
 }
