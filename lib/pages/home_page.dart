@@ -7,38 +7,63 @@ import 'package:flutter_application_1/pages/hello_page2.dart';
 import 'package:flutter_application_1/pages/hello_page3.dart';
 import 'package:flutter_application_1/utils/nav.dart';
 import 'package:flutter_application_1/widgets/blue_button.dart';
+import 'package:flutter_application_1/widgets/drawer_list.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 
 class HomePage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-        appBar: AppBar(
-          title: Center(
-            child: Text(
-              "Opaaia ",
+    return DefaultTabController(
+      length: 3,
+      child: Scaffold(
+          appBar: AppBar(
+            bottom: TabBar(tabs: [
+              Tab(
+                text: "TAB 1",
+              ),
+              Tab(
+                text: "TAB 2",
+              ),
+              Tab(
+                text: "TAB 3",
+              ),
+            ]),
+            title: Center(
+              child: Text(
+                "Opaaia ",
+              ),
             ),
           ),
-        ),
-        body: _body(context),
-        floatingActionButton: Row(
-          mainAxisAlignment: MainAxisAlignment.end,
-          children: <Widget>[
-            FloatingActionButton(
+          body: TabBarView(children: [
+            _body(context),
+            Container(
+              color: Colors.red,
+            ),
+            Container(
+              color: Colors.yellow,
+            ),
+          ]),
+          drawer: DrawerList(),
+          floatingActionButton: Row(
+            mainAxisAlignment: MainAxisAlignment.end,
+            children: <Widget>[
+              FloatingActionButton(
                 child: Icon(Icons.add),
                 onPressed: (() {
                   _onClickFab();
-                })),
-            SizedBox(
-              width: 8,
-            ),
-            FloatingActionButton(
-                child: Icon(Icons.favorite),
-                onPressed: (() {
-                  _onClickFab();
-                })),
-          ],
-        ));
+                }),
+              ),
+              SizedBox(
+                width: 8,
+              ),
+              FloatingActionButton(
+                  child: Icon(Icons.favorite),
+                  onPressed: (() {
+                    _onClickFab();
+                  })),
+            ],
+          )),
+    );
   }
 
   _onClickFab() {
