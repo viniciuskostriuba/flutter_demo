@@ -7,8 +7,13 @@ class Dog {
   Dog(this.nome, this.foto);
 }
 
-class HelloListView extends StatelessWidget {
-  bool gridView = true;
+class HelloListView extends StatefulWidget {
+  @override
+  State<HelloListView> createState() => _HelloListViewState();
+}
+
+class _HelloListViewState extends State<HelloListView> {
+  bool _gridView = true;
 
   @override
   Widget build(BuildContext context) {
@@ -20,12 +25,18 @@ class HelloListView extends StatelessWidget {
             icon: Icon(Icons.list),
             onPressed: () {
               print("Lista");
+              setState(() {
+                _gridView = false;
+              });
             },
           ),
           IconButton(
             icon: Icon(Icons.grid_on),
             onPressed: () {
               print("Grid");
+              setState(() {
+                _gridView = true;
+              });
             },
           )
         ],
@@ -41,37 +52,52 @@ class HelloListView extends StatelessWidget {
       Dog("Mustang", "assets/images/carro.png"),
       Dog("Mumu", "assets/images/carro.png")
     ];
-    return ListView.builder(
-      itemCount: dogs.length,
-      itemExtent: 300,
-      itemBuilder: (context, index) {
-        Dog dog = dogs[index];
-        return Stack(
-          fit: StackFit.expand,
-          children: <Widget>[
-            _img(dog.foto),
-            Align(
-              alignment: Alignment.topCenter,
-              child: Container(
-                margin: EdgeInsets.all(12),
-                padding: EdgeInsets.all(8),
-                decoration: BoxDecoration(
-                    color: Colors.black45,
-                    borderRadius: BorderRadius.circular(16)),
-                child: Text(
-                  dog.nome,
-                  style: TextStyle(fontSize: 26, color: Colors.white),
-                ),
-              ),
-            )
-          ],
-        );
-      },
-    );
+
+    if (_gridView) {
+      return GridView.builder(
+        gridDelegate:
+            SliverGridDelegateWithFixedCrossAxisCount(crossAxisCount: 2),
+        itemCount: dogs.length,
+        itemBuilder: (context, index) {
+          return _itemView(dogs, index);
+        },
+      );
+    } else {
+      return ListView.builder(
+        itemCount: dogs.length,
+        itemExtent: 300,
+        itemBuilder: (context, index) {
+          return _itemView(dogs, index);
+        },
+      );
+    }
     //return Column(children: <Widget>[
     //Expanded(flex: 7, child: _listView()),
     //Expanded(flex: 3, child: _listView()),
     //]);
+  }
+
+  Stack _itemView(List<Dog> dogs, int index) {
+    Dog dog = dogs[index];
+    return Stack(
+      fit: StackFit.expand,
+      children: <Widget>[
+        _img(dog.foto),
+        Align(
+          alignment: Alignment.topCenter,
+          child: Container(
+            margin: EdgeInsets.all(12),
+            padding: EdgeInsets.all(8),
+            decoration: BoxDecoration(
+                color: Colors.black45, borderRadius: BorderRadius.circular(16)),
+            child: Text(
+              dog.nome,
+              style: TextStyle(fontSize: 26, color: Colors.white),
+            ),
+          ),
+        )
+      ],
+    );
   }
 
   _img(String img) {
@@ -83,12 +109,4 @@ class HelloListView extends StatelessWidget {
     //height: 300,
     //fit: BoxFit.fill,
   }
-
-  // _listView() {
-  //   return Container(
-  //     //height: 300,
-  //     //margin: EdgeInsets.only(top: 20, bottom: 20),
-  //     child: ListView(itemExtent: 250, children: imgs),
-  //   );
-  // }
 }
