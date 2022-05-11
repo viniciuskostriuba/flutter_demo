@@ -7,20 +7,42 @@ import 'package:flutter_application_1/pages/hello_page2.dart';
 import 'package:flutter_application_1/pages/hello_page3.dart';
 import 'package:flutter_application_1/utils/nav.dart';
 import 'package:flutter_application_1/widgets/blue_button.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 
 class HomePage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: Center(
-          child: Text(
-            "Opaaia ",
+        appBar: AppBar(
+          title: Center(
+            child: Text(
+              "Opaaia ",
+            ),
           ),
         ),
-      ),
-      body: _body(context),
-    );
+        body: _body(context),
+        floatingActionButton: Row(
+          mainAxisAlignment: MainAxisAlignment.end,
+          children: <Widget>[
+            FloatingActionButton(
+                child: Icon(Icons.add),
+                onPressed: (() {
+                  _onClickFab();
+                })),
+            SizedBox(
+              width: 8,
+            ),
+            FloatingActionButton(
+                child: Icon(Icons.favorite),
+                onPressed: (() {
+                  _onClickFab();
+                })),
+          ],
+        ));
+  }
+
+  _onClickFab() {
+    print("Adicionar");
   }
 
   _body(context) {
@@ -33,44 +55,102 @@ class HomePage extends StatelessWidget {
       color: Color.fromRGBO(255, 235, 59, 1),
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
-        children: <Widget>[_text(), _pageView(), _buttons(context)],
+        children: <Widget>[
+          _text(),
+          _pageView(),
+          _buttons(),
+        ],
       ),
     ));
   }
 
-  _buttons(context) {
-    return Column(
-      children: <Widget>[
-        Row(
-          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+  _buttons() {
+    return Builder(
+      builder: (BuildContext context) {
+        return Column(
           children: <Widget>[
-            BlueButton("ListView",
-                onPressed: () => _onClickNavigator(context, HelloListView())),
-            BlueButton("GridView",
-                onPressed: () => _onClickNavigator(context, HelloGridView())),
-            BlueButton("Page 2",
-                onPressed: () => _onClickNavigator(context, HelloPage2())),
-            BlueButton("Page 3",
-                onPressed: () => _onClickNavigator(context, HelloPage3())),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+              children: <Widget>[
+                BlueButton("ListView",
+                    onPressed: () =>
+                        _onClickNavigator(context, HelloListView())),
+                BlueButton("GridView",
+                    onPressed: () =>
+                        _onClickNavigator(context, HelloGridView())),
+                BlueButton("Page 2",
+                    onPressed: () => _onClickNavigator(context, HelloPage2())),
+                BlueButton("Page 3",
+                    onPressed: () => _onClickNavigator(context, HelloPage3())),
+              ],
+            ),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+              children: <Widget>[
+                BlueButton("Snack", onPressed: () => _onClickSnack(context)),
+                BlueButton("Dialog", onPressed: () => _onClickDialog(context)),
+                BlueButton("Toast", onPressed: _onClickToast)
+              ],
+            )
           ],
-        ),
-        Row(
-          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-          children: <Widget>[
-            BlueButton("Snack", onPressed: _onClickSnack),
-            BlueButton("Dialog", onPressed: _onClickDialog),
-            BlueButton("Toast", onPressed: _onClickToast)
-          ],
-        )
-      ],
+        );
+      },
     );
   }
 
-  _onClickSnack() {}
+  _onClickSnack(context) {
+    Scaffold.of(context).showSnackBar(
+      SnackBar(
+        content: Text("Ola"),
+        action: SnackBarAction(
+          textColor: Colors.yellow,
+          label: "OK",
+          onPressed: () {
+            print("OK");
+          },
+        ),
+      ),
+    );
+  }
 
-  _onClickDialog() {}
+  _onClickDialog(BuildContext context) {
+    showDialog(
+        context: context,
+        builder: (context) {
+          return WillPopScope(
+            onWillPop: () async => false,
+            child: AlertDialog(
+              title: Text("Teste do Dialog"),
+              actions: <Widget>[
+                FlatButton(
+                  onPressed: () {
+                    Navigator.pop(context);
+                  },
+                  child: Text("Cancelar"),
+                ),
+                FlatButton(
+                  onPressed: () {
+                    Navigator.pop(context);
+                    print("Clicou em OK");
+                  },
+                  child: Text("OK"),
+                ),
+              ],
+            ),
+          );
+        });
+  }
 
-  _onClickToast() {}
+  _onClickToast() {
+    Fluttertoast.showToast(
+        msg: "Cliquei no Toast",
+        toastLength: Toast.LENGTH_SHORT,
+        gravity: ToastGravity.CENTER,
+        timeInSecForIosWeb: 2,
+        backgroundColor: Colors.red,
+        textColor: Colors.white,
+        fontSize: 16.0);
+  }
 
   _text() {
     return Text(
